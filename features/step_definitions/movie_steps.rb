@@ -1,10 +1,11 @@
 # Add a declarative step here for populating the DB with movies.
 
-Given /the following movies exist/ do |items|
-    Movie.create!(items.hashes)
+Given /the following movies exist/ do |movie|
+    Movie.create!(movie.hashes)
     # each returned element will be a hash whose key is the table header.
     # you should arrange to add that movie to the database here.
 end
+
 
 # Make sure that one string (regexp) occurs before or after another one
 #   on the same page
@@ -23,4 +24,38 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
   # HINT: use String#split to split up the rating_list, then
   #   iterate over the ratings and reuse the "When I check..." or
   #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
+  rating_list.split(',').each do |rating|
+    rating_id = "ratings_#{rating.strip}"
+    if uncheck
+      steps %Q{When I uncheck "#{rating_id}"}
+    else
+      steps %Q{When I check "#{rating_id}"}
+    end
+  end
+
+end
+
+
+When /I (un)?check all the ratings/ do |uncheck|
+  if uncheck
+    steps "When I uncheck the following ratings: #{Movie.all_ratings.join(", ")}"
+  else
+    steps "When I check the following ratings: #{Movie.all_ratings.join(", ")}"
+  end
+end
+
+
+Then /I should( not)? see the following movies/ do |notsee, movies|
+  movies.hashes.each do |movie|
+    if notsee
+      steps %Q{Then I should not see "#{movie[:title]}"}
+    else
+      steps %Q{Then I should see "#{movie[:title]}"}
+    end
+  end
+end
+
+Then /I should see all the movies/ do
+   rows = Movie.count
+   assert rows == 10
 end
