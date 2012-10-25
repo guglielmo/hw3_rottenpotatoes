@@ -4,4 +4,7 @@
 TAGS
 db/schema.rb
 log/
+tmp/
 db/*.sqlite3
+.idea
+*.tar.gz
