@@ -1,9 +1,10 @@
 # Add a declarative step here for populating the DB with movies.
 
-Given /the following movies exist/ do |movie|
-    Movie.create!(movie.hashes)
-    # each returned element will be a hash whose key is the table header.
-    # you should arrange to add that movie to the database here.
+Given /the following movies exist/ do |movies|
+  @rows = movies.hashes.length
+  movies.hashes.each do |movie|
+      Movie.create!(movie)
+  end
 end
 
 
@@ -11,9 +12,7 @@ end
 #   on the same page
 
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
-  #  ensure that that e1 occurs before e2.
-  #  page.content  is the entire content of the page as a string.
-  flunk "Unimplemented"
+  assert page.body.index(e1) < page.body.index(e2)
 end
 
 # Make it easier to express checking or unchecking several boxes at once
@@ -21,9 +20,6 @@ end
 #  "When I check the following ratings: G"
 
 When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
-  # HINT: use String#split to split up the rating_list, then
-  #   iterate over the ratings and reuse the "When I check..." or
-  #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
   rating_list.split(',').each do |rating|
     rating_id = "ratings_#{rating.strip}"
     if uncheck
@@ -55,7 +51,6 @@ Then /I should( not)? see the following movies/ do |notsee, movies|
   end
 end
 
-Then /I should see all the movies/ do
-   rows = Movie.count
-   assert rows == 10
+Then /I should see all the (.*) movies/ do |n_movies|
+  page.has_css?("div.records li", :count => Integer(n_movies), :msg =>"I count #{n_movies}")
 end

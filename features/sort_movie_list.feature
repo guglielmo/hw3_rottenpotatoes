@@ -19,7 +19,7 @@ Background: movies have been added to database
   | Raiders of the Lost Ark | PG     | 12-Jun-1981  |
   | Chicken Run             | G      | 21-Jun-2000  |
 
-  And I am on the RottenPotatoes home page
+  And I am on the home page
 
 Scenario: sort movies alphabetically
   When I follow "Movie Title"
@@ -27,5 +27,5 @@ Scenario: sort movies alphabetically
 
 Scenario: sort movies in increasing order of release date
   When I follow "Release Date"
-  Then I should see "2001:A Space Odyssey" before "Aladdin"
+  Then I should see "2001: A Space Odyssey" before "Aladdin"
 

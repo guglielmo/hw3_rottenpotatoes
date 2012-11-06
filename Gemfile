@@ -12,11 +12,17 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'capybara'
   gem 'launchy'
-end
-group :test do
-  gem 'cucumber-rails'
+  gem "rspec-rails", ">= 2.0.0.beta"
+  gem "ZenTest"
+  gem "factory_girl_rails"
+  gem 'simplecov', :require => false, :group => :test
+  gem 'cucumber-rails', :require => false
   gem 'cucumber-rails-training-wheels'
 end
+
+group :test do
+end
+
 group :production do
 #  gem 'pg'
 end
@@ -31,6 +37,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'ruby-tmdb'
 
 # Use unicorn as the web server
 # gem 'unicorn'

@@ -8,3 +8,5 @@ tmp/
 db/*.sqlite3
 .idea
 *.tar.gz
+.bundle
+Gemfile.lock

@@ -1,5 +1,9 @@
 class MoviesController < ApplicationController
 
+  def search_tmdb
+    @movies = Movie.find_in_tmdb(params['search_terms'])
+  end
+
   def show
     id = params[:id] # retrieve movie ID from URI route
     @movie = Movie.find(id) # look up movie by unique ID
@@ -20,13 +24,16 @@ class MoviesController < ApplicationController
     if @selected_ratings == {}
       @selected_ratings = Hash[@all_ratings.map {|rating| [rating, rating]}]
     end
-    
+
+
     if params[:sort] != session[:sort] or params[:ratings] != session[:ratings]
       session[:sort] = sort
       session[:ratings] = @selected_ratings
       redirect_to :sort => sort, :ratings => @selected_ratings and return
     end
+
     @movies = Movie.find_all_by_rating(@selected_ratings.keys, ordering)
+    # @movies = []
   end
 
   def new

@@ -19,7 +19,7 @@ Background: movies have been added to database
   | Raiders of the Lost Ark | PG     | 12-Jun-1981  |
   | Chicken Run             | G      | 21-Jun-2000  |
 
-  And  I am on the RottenPotatoes home page
+  And  I am on the home page
   
 Scenario: restrict to movies with 'PG' or 'R' ratings
   When I check the following ratings: PG, R
@@ -33,17 +33,15 @@ Scenario: restrict to movies with 'PG' or 'R' ratings
   | The Incredibles         |
   | Raiders of the Lost Ark |
   And I should not see the following movies:
-  | title                  |
-  | Aladdin                |
-  | The Help               |
-  | Chocolat               |
-  | 2001:A Space Odissey   |
-  | Chicken Run            |
-
-Scenario: no ratings selected
-  When I check all the ratings
-  Then I should see all the movies
+  | title                   |
+  | Aladdin                 |
+  | The Help                |
+  | Chocolat                |
+  | 2001: A Space Odissey   |
+  | Chicken Run             |
 
 Scenario: all ratings selected
-  When I uncheck all the ratings
-  Then I should see all the movies
+  When I check all the ratings
+  Then I should see all the 10 movies
+
+Scenario: no ratings selected
